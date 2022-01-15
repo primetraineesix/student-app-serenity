@@ -74,4 +74,26 @@ public class StudentSteps {
                 .then();
     }
 
+    @Step("Getting all students information")
+    public ValidatableResponse getAllStudentsInfo() {
+        return SerenityRest
+                .given()
+                .when()
+                .get(EndPoints.GET_ALL_STUDENT)
+                .then();
+    }
+
+    @Step("Getting the student information with email: {0}")
+    public HashMap<String, Object> getStudentInfoByEmail(String email) {
+        String p1 = "findAll{it.email=='";
+        String p2 = "'}.get(0)";
+        return SerenityRest.given().log().all()
+                .when()
+                .get(EndPoints.GET_ALL_STUDENT)
+                .then()
+                .statusCode(200)
+                .extract()
+                .path(p1 + email + p2);
+    }
+
 }
